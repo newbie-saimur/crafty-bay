@@ -1,4 +1,3 @@
-import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/app_routes.dart';
 import 'package:crafty_bay/app/app_theme.dart';
 import 'package:crafty_bay/features/auth/ui/screens/splash_screen.dart';
