@@ -1,4 +1,5 @@
 import 'package:crafty_bay/features/auth/ui/screens/login_screen.dart';
+import 'package:crafty_bay/features/auth/ui/screens/pin_code_verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
 
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _navigateToNextScreen() async {
     await Future.delayed(Duration(seconds: 2));
-    Navigator.pushReplacementNamed(context, LoginScreen.name);
+    Navigator.pushReplacementNamed(context, PinCodeVerificationScreen.name);
   }
 
   @override
