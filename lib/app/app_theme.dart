@@ -8,6 +8,7 @@ class AppTheme {
       inputDecorationTheme: _inputDecorationThemeData,
       textTheme: _textTheme,
       elevatedButtonTheme: _elevatedButtonThemeData,
+      appBarTheme: _appBarTheme,
     );
   }
 
@@ -40,10 +41,7 @@ class AppTheme {
         fontWeight: FontWeight.w400,
         fontSize: 14,
       ),
-      titleLarge: TextStyle(
-        fontWeight: FontWeight.w500,
-        fontSize: 20,
-      ),
+      titleLarge: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
     );
   }
 
@@ -60,6 +58,16 @@ class AppTheme {
           letterSpacing: 0.4,
         ),
         padding: EdgeInsets.symmetric(vertical: 12),
+      ),
+    );
+  }
+
+  static AppBarTheme get _appBarTheme {
+    return AppBarTheme(
+      titleTextStyle: TextStyle(
+        color: Colors.black87,
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
       ),
     );
   }

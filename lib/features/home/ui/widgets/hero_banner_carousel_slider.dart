@@ -2,13 +2,16 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class HeroBannerCarousel extends StatelessWidget {
-  const HeroBannerCarousel({
-    super.key,
-    required ValueNotifier<int> currentSlider,
-  }) : _currentSlider = currentSlider;
+class HeroBannerCarouselSlider extends StatefulWidget {
+  const HeroBannerCarouselSlider({super.key});
 
-  final ValueNotifier<int> _currentSlider;
+  @override
+  State<HeroBannerCarouselSlider> createState() =>
+      _HeroBannerCarouselSliderState();
+}
+
+class _HeroBannerCarouselSliderState extends State<HeroBannerCarouselSlider> {
+  final ValueNotifier<int> _currentSlider = ValueNotifier(0);
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +36,7 @@ class HeroBannerCarousel extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
-                    child: Text(
-                      'text $i',
-                      style: TextStyle(fontSize: 16.0),
-                    ),
+                    child: Text('text $i', style: TextStyle(fontSize: 16.0)),
                   ),
                 );
               },
@@ -63,9 +63,7 @@ class HeroBannerCarousel extends StatelessWidget {
                             : Colors.black12,
                         width: 1.5,
                       ),
-                      color: currentIndex == i
-                          ? AppColors.themeColor
-                          : null,
+                      color: currentIndex == i ? AppColors.themeColor : null,
                     ),
                   ),
               ],

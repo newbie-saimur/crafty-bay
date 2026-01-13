@@ -1,6 +1,9 @@
+import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
-import 'package:crafty_bay/features/home/ui/widgets/hero_banner_carousel.dart';
+import 'package:crafty_bay/features/home/ui/widgets/hero_banner_carousel_slider.dart';
+import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart';
 import 'package:crafty_bay/features/home/ui/widgets/product_search_bar.dart';
+import 'package:crafty_bay/features/product/ui/screens/product_category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -14,8 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ValueNotifier<int> _currentSlider = ValueNotifier(0);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 12),
               ProductSearchBar(),
               const SizedBox(height: 12),
-              HeroBannerCarousel(currentSlider: _currentSlider),
+              HeroBannerCarouselSlider(),
+              const SizedBox(height: 12),
+              _buildSectionHeader(title: "All Categories", onTapSeeAll: () {
+                Navigator.pushNamed(context, ProductCategoryScreen.name);
+              }),
+              const SizedBox(height: 12),
+              _getCategoryList(),
+              const SizedBox(height: 12),
             ],
           ),
         ),
@@ -63,6 +71,32 @@ class _HomeScreenState extends State<HomeScreen> {
         radius: 18,
         backgroundColor: Colors.black.withValues(alpha: 0.05),
         child: Icon(iconData, color: Colors.black54, size: 18),
+      ),
+    );
+  }
+
+  Row _buildSectionHeader({
+    required String title,
+    required VoidCallback onTapSeeAll,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(title, style: Theme.of(context).textTheme.titleLarge),
+        TextButton(onPressed: onTapSeeAll, child: Text("See All", style: TextStyle(color: AppColors.themeColor),)),
+      ],
+    );
+  }
+
+  Widget _getCategoryList() {
+    return SizedBox(
+      height: 100,
+      child: ListView.builder(
+        itemCount: 10,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return ProductCategoryItem();
+        },
       ),
     );
   }
