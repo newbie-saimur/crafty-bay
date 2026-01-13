@@ -65,8 +65,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   backgroundColor: Colors.transparent,
                   enableActiveFill: true,
                   textStyle: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24
+                    fontWeight: FontWeight.w500,
+                    fontSize: 22
                   ),
                   controller: _pinTEController,
                 ),
@@ -103,5 +103,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _pinTEController.dispose();
+    super.dispose();
   }
 }
