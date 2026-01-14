@@ -9,7 +9,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 154,
+      width: 156,
       height: 220,
       margin: EdgeInsets.only(bottom: 12, right: 4),
       decoration: BoxDecoration(
@@ -50,8 +50,8 @@ class ProductCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black87,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black.withValues(alpha: 0.75),
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -83,7 +83,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     Container(
-                      padding: EdgeInsets.all(2),
+                      padding: EdgeInsets.all(3),
                       decoration: BoxDecoration(
                         color: AppColors.themeColor,
                         borderRadius: BorderRadius.circular(3),

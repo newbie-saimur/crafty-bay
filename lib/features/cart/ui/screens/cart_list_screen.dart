@@ -1,5 +1,7 @@
+import 'package:crafty_bay/app/app_colors.dart';
+import 'package:crafty_bay/app/constants.dart';
+import 'package:crafty_bay/features/cart/ui/widgets/cart_item.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
-import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,19 +32,68 @@ class _CartListScreenState extends State<CartListScreen> {
             child: Divider(color: Colors.black.withValues(alpha: 0.05)),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 4,
+        body: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ListView.separated(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return CartItem();
+                  },
+                  separatorBuilder: (_, __) {
+                    return const SizedBox(height: 8);
+                  },
+                ),
+              ),
             ),
-            itemCount: 16,
-            itemBuilder: (context, index) {
-              return FittedBox(child: ProductCategoryItem());
-            },
-          ),
+            const SizedBox(height: 12),
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.themeColor.withValues(alpha: .15),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Total Price", style: TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w400
+                        ),),
+                        Text(
+                          "${Constants.bdtCurrencySign}10,000.00",
+                          style: TextStyle(
+                            color: AppColors.themeColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 140,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: Text("Checkout"),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

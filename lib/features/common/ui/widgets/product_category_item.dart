@@ -14,7 +14,7 @@ class ProductCategoryItem extends StatelessWidget {
           padding: EdgeInsets.all(16),
           margin: EdgeInsets.only(left: 8, right: 8),
           decoration: BoxDecoration(
-            color: AppColors.themeColor.withValues(alpha: 0.1),
+            color: AppColors.themeColor.withValues(alpha: 0.07),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Center(
