@@ -13,6 +13,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailTEController = TextEditingController();
+  final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "Please Enter Your Email Address",
+                  "Please Enter Your Email Address & Password",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: (email) {
                       email = email?.trim();
                       if (email == null || email.isEmpty) {
-                        return "Email is required.";
+                        return "Please enter your email address.";
                       }
                       final emailRegex = RegExp(
                         r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
@@ -61,8 +62,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                 ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _passwordTEController,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(hintText: "Password"),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Please enter your password.";
+                    }
+                    return null;
+                  },
+                ),
                 const SizedBox(height: 16),
-                ElevatedButton(onPressed: _navigateToPinValidationScreen, child: Text("Next")),
+                ElevatedButton(onPressed: _navigateToPinValidationScreen, child: Text("Login")),
               ],
             ),
           ),
@@ -81,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     _emailTEController.dispose();
+    _passwordTEController.dispose();
     super.dispose();
   }
 }

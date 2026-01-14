@@ -16,6 +16,10 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Categories"),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Divider(color: Colors.black.withValues(alpha: 0.05)),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

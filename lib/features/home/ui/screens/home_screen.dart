@@ -1,5 +1,6 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
+import 'package:crafty_bay/features/common/ui/widgets/product_card.dart';
 import 'package:crafty_bay/features/home/ui/widgets/hero_banner_carousel_slider.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart';
 import 'package:crafty_bay/features/home/ui/widgets/product_search_bar.dart';
@@ -31,12 +32,42 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 12),
               HeroBannerCarouselSlider(),
               const SizedBox(height: 12),
-              _buildSectionHeader(title: "All Categories", onTapSeeAll: () {
-                Navigator.pushNamed(context, ProductCategoryScreen.name);
-              }),
+              _buildSectionHeader(
+                title: "All Categories",
+                onTapSeeAll: () {
+                  Navigator.pushNamed(context, ProductCategoryScreen.name);
+                },
+              ),
               const SizedBox(height: 12),
               _getCategoryList(),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
+              _buildSectionHeader(
+                title: "Popular",
+                onTapSeeAll: () {
+                  Navigator.pushNamed(context, ProductCategoryScreen.name);
+                },
+              ),
+              const SizedBox(height: 4),
+              _getPopularProduct(),
+              const SizedBox(height: 4),
+              _buildSectionHeader(
+                title: "Special",
+                onTapSeeAll: () {
+                  Navigator.pushNamed(context, ProductCategoryScreen.name);
+                },
+              ),
+              const SizedBox(height: 4),
+              _getSpecialProduct(),
+              const SizedBox(height: 4),
+              _buildSectionHeader(
+                title: "New",
+                onTapSeeAll: () {
+                  Navigator.pushNamed(context, ProductCategoryScreen.name);
+                },
+              ),
+              const SizedBox(height: 4),
+              _getNewProduct(),
+              const SizedBox(height: 16),
             ],
           ),
         ),
@@ -83,7 +114,10 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title, style: Theme.of(context).textTheme.titleLarge),
-        TextButton(onPressed: onTapSeeAll, child: Text("See All", style: TextStyle(color: AppColors.themeColor),)),
+        TextButton(
+          onPressed: onTapSeeAll,
+          child: Text("See All", style: TextStyle(color: AppColors.themeColor)),
+        ),
       ],
     );
   }
@@ -98,6 +132,42 @@ class _HomeScreenState extends State<HomeScreen> {
           return ProductCategoryItem();
         },
       ),
+    );
+  }
+
+  Widget _getSpecialProduct() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        spacing: 10,
+        children: [
+          ...[1,2,3,4].map((product) => ProductCard())
+        ],
+      )
+    );
+  }
+
+  Widget _getPopularProduct() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        spacing: 10,
+        children: [
+          ...[1,2,3,4].map((product) => ProductCard())
+        ],
+      )
+    );
+  }
+
+  Widget _getNewProduct() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        spacing: 10,
+        children: [
+          ...[1,2,3,4].map((product) => ProductCard())
+        ],
+      )
     );
   }
 }

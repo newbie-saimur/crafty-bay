@@ -14,10 +14,10 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
+  final TextEditingController _emailTEController = TextEditingController();
+  final TextEditingController _passwordTEController = TextEditingController();
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _cityTEController = TextEditingController();
-  final TextEditingController _shippingAddressTEController =
-      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -72,12 +72,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 8),
                       TextFormField(
+                        controller: _emailTEController,
+                        decoration: InputDecoration(hintText: "Email Address"),
+                        validator: (email) {
+                          email = email?.trim();
+                          if (email == null || email.isEmpty) {
+                            return "Please enter your email address.";
+                          }
+                          final emailRegex = RegExp(
+                            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                          );
+                          if (!emailRegex.hasMatch(email)) {
+                            return 'Please enter a valid email address';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        controller: _passwordTEController,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(hintText: "Password"),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return "Please enter your password.";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
                         controller: _mobileTEController,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(hintText: "Mobile"),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
                             return "Please enter your mobile number.";
+                          } else if (value.length < 8) {
+                            return "Password must be at least 8 character long.";
+                          } else if (!RegExp(r'[0-9]').hasMatch(value)) {
+                            return "Password must contain at least one number.";
                           }
                           return null;
                         },
@@ -95,24 +129,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                       ),
                       const SizedBox(height: 8),
-                      TextFormField(
-                        controller: _shippingAddressTEController,
-                        textInputAction: TextInputAction.next,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          hintText: "Shipping Address",
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 12,
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return "Please enter your shipping address.";
-                          }
-                          return null;
-                        },
-                      ),
                     ],
                   ),
                 ),
@@ -140,17 +156,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void dispose() {
     _firstNameTEController.dispose();
     _lastNameTEController.dispose();
+    _emailTEController.dispose();
+    _passwordTEController.dispose();
     _mobileTEController.dispose();
     _cityTEController.dispose();
-    _shippingAddressTEController.dispose();
     super.dispose();
   }
 }
 
 // {
-// "firstName":"Rabbil",
-// "lastName":"Hasan",
-// "mobile":"01785388919",
-// "city":"Dhaka",
-// "shippingAddress":"Shekhertek 8,Mohammadpur, Adabor, Dhaka-1207"
+// "first_name": "Meskatul",
+// "last_name": "Islam",
+// "email": "meskatcse@gmail.com",
+// "password": "123456",
+// "phone": "01754658781",
+// "city": "Chattogram"
 // }
