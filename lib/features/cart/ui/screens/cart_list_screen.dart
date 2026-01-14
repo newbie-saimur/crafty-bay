@@ -3,14 +3,14 @@ import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProductCategoryScreen extends StatefulWidget {
-  const ProductCategoryScreen({super.key});
+class CartListScreen extends StatefulWidget {
+  const CartListScreen({super.key});
 
   @override
-  State<ProductCategoryScreen> createState() => _ProductCategoryScreenState();
+  State<CartListScreen> createState() => _CartListScreenState();
 }
 
-class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
+class _CartListScreenState extends State<CartListScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -24,7 +24,7 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
             onTap: Get.find<MainBottomNavBarController>().backToHome,
             child: Icon(Icons.arrow_back_ios_new_rounded),
           ),
-          title: Text("Categories"),
+          title: Text("Cart"),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(1),
             child: Divider(color: Colors.black.withValues(alpha: 0.05)),

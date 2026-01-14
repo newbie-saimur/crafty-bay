@@ -10,6 +10,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 154,
+      height: 220,
       margin: EdgeInsets.only(bottom: 12, right: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),

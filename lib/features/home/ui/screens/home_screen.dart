@@ -1,5 +1,6 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
+import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_card.dart';
 import 'package:crafty_bay/features/home/ui/widgets/hero_banner_carousel_slider.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart';
@@ -7,11 +8,10 @@ import 'package:crafty_bay/features/home/ui/widgets/product_search_bar.dart';
 import 'package:crafty_bay/features/product/ui/screens/product_category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
-  static final String name = "/home";
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -35,39 +35,24 @@ class _HomeScreenState extends State<HomeScreen> {
               _buildSectionHeader(
                 title: "All Categories",
                 onTapSeeAll: () {
-                  Navigator.pushNamed(context, ProductCategoryScreen.name);
+                  Get.find<MainBottomNavBarController>().moveToCategoryScreen();
                 },
               ),
               const SizedBox(height: 12),
               _getCategoryList(),
               const SizedBox(height: 8),
-              _buildSectionHeader(
-                title: "Popular",
-                onTapSeeAll: () {
-                  Navigator.pushNamed(context, ProductCategoryScreen.name);
-                },
-              ),
+              _buildSectionHeader(title: "Popular", onTapSeeAll: () {}),
               const SizedBox(height: 4),
               _getPopularProduct(),
               const SizedBox(height: 4),
-              _buildSectionHeader(
-                title: "Special",
-                onTapSeeAll: () {
-                  Navigator.pushNamed(context, ProductCategoryScreen.name);
-                },
-              ),
+              _buildSectionHeader(title: "Special", onTapSeeAll: () {}),
               const SizedBox(height: 4),
               _getSpecialProduct(),
               const SizedBox(height: 4),
-              _buildSectionHeader(
-                title: "New",
-                onTapSeeAll: () {
-                  Navigator.pushNamed(context, ProductCategoryScreen.name);
-                },
-              ),
+              _buildSectionHeader(title: "New", onTapSeeAll: () {}),
               const SizedBox(height: 4),
               _getNewProduct(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
             ],
           ),
         ),
@@ -141,9 +126,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(
         spacing: 10,
         children: [
-          ...[1,2,3,4].map((product) => ProductCard())
+          ...[1, 2, 3, 4].map((product) => ProductCard()),
         ],
-      )
+      ),
     );
   }
 
@@ -153,9 +138,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(
         spacing: 10,
         children: [
-          ...[1,2,3,4].map((product) => ProductCard())
+          ...[1, 2, 3, 4].map((product) => ProductCard()),
         ],
-      )
+      ),
     );
   }
 
@@ -165,9 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(
         spacing: 10,
         children: [
-          ...[1,2,3,4].map((product) => ProductCard())
+          ...[1, 2, 3, 4].map((product) => ProductCard()),
         ],
-      )
+      ),
     );
   }
 }
