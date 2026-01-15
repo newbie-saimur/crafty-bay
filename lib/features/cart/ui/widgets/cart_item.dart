@@ -87,7 +87,7 @@ class CartItem extends StatelessWidget {
                     ),
                     IncrementDecrementWidget(onChange: (value) {}),
                   ],
-                ),
+                 ),
               ],
             ),
           ),
