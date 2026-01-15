@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class IncrementDecrementWidget extends StatefulWidget {
   const IncrementDecrementWidget({super.key, required this.onChange});
 
-  final Function(int) onChange;
+  final Function(int value) onChange;
 
   @override
   State<IncrementDecrementWidget> createState() =>
@@ -65,7 +65,10 @@ class _IncrementDecrementWidgetState extends State<IncrementDecrementWidget> {
         ),
         child: Icon(
           icon,
-          color: Colors.white,
+          color: ((value == 1 && icon == Icons.remove) ||
+              (value == 20 && icon == Icons.add))
+              ? Colors.white.withValues(alpha: 0.5)
+              : Colors.white,
           size: 18,
           fontWeight: FontWeight.w900,
         ),

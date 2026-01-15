@@ -1,7 +1,7 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
 import 'package:crafty_bay/app/constants.dart';
-import 'package:crafty_bay/features/cart/ui/widgets/increment_decrement_widget.dart';
+import 'package:crafty_bay/features/common/ui/widgets/increment_decrement_widget.dart';
 import 'package:flutter/material.dart';
 
 class CartItem extends StatelessWidget {

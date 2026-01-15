@@ -1,7 +1,6 @@
-import 'package:crafty_bay/app/app_colors.dart';
-import 'package:crafty_bay/app/constants.dart';
 import 'package:crafty_bay/features/cart/ui/widgets/cart_item.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
+import 'package:crafty_bay/features/common/ui/widgets/product_price_button_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,7 +16,7 @@ class _CartListScreenState extends State<CartListScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (_, __) {
+      onPopInvokedWithResult: (_, _) {
         Get.find<MainBottomNavBarController>().backToHome();
       },
       child: Scaffold(
@@ -42,56 +41,18 @@ class _CartListScreenState extends State<CartListScreen> {
                   itemBuilder: (context, index) {
                     return CartItem();
                   },
-                  separatorBuilder: (_, __) {
+                  separatorBuilder: (_, _) {
                     return const SizedBox(height: 8);
                   },
                 ),
               ),
             ),
             const SizedBox(height: 12),
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.themeColor.withValues(alpha: .15),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 20,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Total Price", style: TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.w400
-                        ),),
-                        Text(
-                          "${Constants.bdtCurrencySign}10,000.00",
-                          style: TextStyle(
-                            color: AppColors.themeColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 140,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text("Checkout"),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            ProductPriceButtonBanner(
+              price: 10000,
+              buttonText: "Checkout",
+              priceLabel: "Total Price",
+              onTap: () {},
             ),
           ],
         ),

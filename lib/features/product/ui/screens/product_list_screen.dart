@@ -1,7 +1,5 @@
-import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_card.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key, required this.category});

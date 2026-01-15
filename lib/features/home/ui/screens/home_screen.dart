@@ -5,7 +5,6 @@ import 'package:crafty_bay/features/common/ui/widgets/product_card.dart';
 import 'package:crafty_bay/features/home/ui/widgets/hero_banner_carousel_slider.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart';
 import 'package:crafty_bay/features/home/ui/widgets/product_search_bar.dart';
-import 'package:crafty_bay/features/product/ui/screens/product_category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';

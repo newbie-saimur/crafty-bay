@@ -1,6 +1,5 @@
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_card.dart';
-import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +15,7 @@ class _WishListScreenState extends State<WishListScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (_, __) {
+      onPopInvokedWithResult: (_, _) {
         Get.find<MainBottomNavBarController>().backToHome();
       },
       child: Scaffold(

@@ -15,7 +15,7 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (_, __) {
+      onPopInvokedWithResult: (_, _) {
         Get.find<MainBottomNavBarController>().backToHome();
       },
       child: Scaffold(
