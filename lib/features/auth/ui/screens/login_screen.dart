@@ -1,3 +1,4 @@
+import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/features/auth/ui/screens/register_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Padding(
             padding: EdgeInsetsGeometry.symmetric(
               horizontal: 20,
-              vertical: MediaQuery.sizeOf(context).height * 0.2,
+              vertical: MediaQuery.sizeOf(context).height * 0.16,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -75,7 +76,33 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton(onPressed: _navigateToPinValidationScreen, child: Text("Login")),
+                ElevatedButton(
+                  onPressed: _navigateToPinValidationScreen,
+                  child: Text("Login"),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    const SizedBox(width: 6),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, RegisterScreen.name);
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          color: AppColors.themeColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -85,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _navigateToPinValidationScreen() {
-    if(_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate()) {
       Navigator.pushReplacementNamed(context, RegisterScreen.name);
       // TODO: Navigate to Pin Verification Screen
     }

@@ -1,20 +1,29 @@
 import 'package:crafty_bay/app/app_colors.dart';
+import 'package:crafty_bay/features/auth/data/models/verify_otp_request_model.dart';
+import 'package:crafty_bay/features/auth/ui/controllers/otp_verification_controller.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
+import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_bar.dart';
+import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/features/common/ui/widgets/show_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class PinCodeVerificationScreen extends StatefulWidget {
-  const PinCodeVerificationScreen({super.key});
+class OtpVerificationScreen extends StatefulWidget {
+  const OtpVerificationScreen({super.key, required this.email});
 
   static final String name = "/pin-verification";
+  final String email;
 
   @override
-  State<PinCodeVerificationScreen> createState() =>
-      _PinCodeVerificationScreenState();
+  State<OtpVerificationScreen> createState() =>
+      _OtpVerificationScreenState();
 }
 
-class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
+class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final TextEditingController _pinTEController = TextEditingController();
+  final OtpVerificationController _otpVerificationController =
+      Get.find<OtpVerificationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +41,12 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 AppLogo(width: 100, height: 100),
                 const SizedBox(height: 24),
                 Text(
-                  "Welcome Back",
+                  "Enter OTP Code",
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "Please Enter Your Email Address",
+                  "A 4 digit OTP Code has been sent",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
@@ -66,12 +75,25 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   enableActiveFill: true,
                   textStyle: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: 22
+                    fontSize: 22,
                   ),
                   controller: _pinTEController,
+                  keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton(onPressed: () {}, child: Text("Next")),
+                GetBuilder(
+                  builder: (_) {
+                    return Visibility(
+                      visible:
+                          _otpVerificationController.inProgress == false,
+                      replacement: CenteredCircularProgressIndicator(),
+                      child: ElevatedButton(
+                        onPressed: _onTapOtpVerification,
+                        child: Text("Verify"),
+                      ),
+                    );
+                  },
+                ),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -84,10 +106,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     Text(
                       "120s",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        color: AppColors.themeColor,
-                        fontWeight: FontWeight.w500
-                      ),
+                      style: Theme.of(context).textTheme.headlineSmall!
+                          .copyWith(
+                            color: AppColors.themeColor,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                   ],
                 ),
@@ -103,6 +126,29 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _onTapOtpVerification() async {
+    if (_pinTEController.text.isNotEmpty) {
+      final VerifyOtpRequestModel model = VerifyOtpRequestModel(
+        email: widget.email,
+        otp: _pinTEController.text,
+      );
+      bool isSuccess = await _otpVerificationController.verifyOtp(model);
+      if (isSuccess) {
+        showSnackBar(
+          title: "Success",
+          content: _otpVerificationController.message!,
+        );
+        Navigator.pushNamed(context, MainBottomNavBar.name);
+      } else {
+        showSnackBar(
+          title: "Verification Failed",
+          content: _otpVerificationController.errorMessage!,
+          isError: true,
+        );
+      }
+    }
   }
 
   @override

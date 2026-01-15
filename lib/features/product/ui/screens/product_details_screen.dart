@@ -78,7 +78,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ),
                             const SizedBox(width: 20),
                             Container(
-                              padding: EdgeInsets.all(4),
+                              padding: EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                 color: AppColors.themeColor,
                                 borderRadius: BorderRadius.circular(4),

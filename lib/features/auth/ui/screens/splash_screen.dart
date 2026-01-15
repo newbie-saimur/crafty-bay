@@ -1,3 +1,4 @@
+import 'package:crafty_bay/features/auth/ui/screens/register_screen.dart';
 import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _navigateToHomeScreen() async {
     await Future.delayed(Duration(seconds: 2));
-    Navigator.pushReplacementNamed(context, MainBottomNavBar.name);
+    Navigator.pushReplacementNamed(context, RegisterScreen.name);
   }
 
   @override

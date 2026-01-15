@@ -1,5 +1,5 @@
 import 'package:crafty_bay/features/auth/ui/screens/login_screen.dart';
-import 'package:crafty_bay/features/auth/ui/screens/pin_code_verification_screen.dart';
+import 'package:crafty_bay/features/auth/ui/screens/otp_verification_screen.dart';
 import 'package:crafty_bay/features/auth/ui/screens/register_screen.dart';
 import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_bar.dart';
 import 'package:crafty_bay/features/product/ui/screens/product_details_screen.dart';
@@ -16,8 +16,9 @@ class AppRoutes {
       screenWidget = LoginScreen();
     } else if (settings.name == RegisterScreen.name) {
       screenWidget = RegisterScreen();
-    } else if (settings.name == PinCodeVerificationScreen.name) {
-      screenWidget = PinCodeVerificationScreen();
+    } else if (settings.name == OtpVerificationScreen.name) {
+      final String email = settings.arguments as String;
+      screenWidget = OtpVerificationScreen(email: email,);
     } else if (settings.name == MainBottomNavBar.name) {
       screenWidget = MainBottomNavBar();
     } else if (settings.name == ProductListScreen.name) {

@@ -1,6 +1,13 @@
+import 'package:crafty_bay/app/app_colors.dart';
+import 'package:crafty_bay/features/auth/data/models/sign_up_request_model.dart';
+import 'package:crafty_bay/features/auth/ui/controllers/sign_up_controller.dart';
+import 'package:crafty_bay/features/auth/ui/screens/otp_verification_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
+import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/features/common/ui/widgets/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:crafty_bay/features/auth/ui/screens/login_screen.dart';
+import 'package:get/get.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -19,6 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _cityTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final SignUpController _signUpController = Get.find<SignUpController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 AppLogo(width: 100, height: 100),
                 const SizedBox(height: 24),
                 Text(
-                  "Complete Profile",
+                  "Join With Us",
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 const SizedBox(height: 4),
@@ -73,6 +81,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: _emailTEController,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(hintText: "Email Address"),
                         validator: (email) {
                           email = email?.trim();
@@ -96,18 +106,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
                             return "Please enter your password.";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: _mobileTEController,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(hintText: "Mobile"),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return "Please enter your mobile number.";
                           } else if (value.length < 8) {
                             return "Password must be at least 8 character long.";
                           } else if (!RegExp(r'[0-9]').hasMatch(value)) {
@@ -118,8 +116,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 8),
                       TextFormField(
-                        controller: _cityTEController,
+                        controller: _mobileTEController,
                         textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(hintText: "Mobile"),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return "Please enter your password.";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        controller: _cityTEController,
+                        textInputAction: TextInputAction.done,
                         decoration: InputDecoration(hintText: "City"),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
@@ -133,9 +144,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: _onTapUserSignUp,
-                  child: Text("Complete"),
+                GetBuilder<SignUpController>(
+                  builder: (_) {
+                    return Visibility(
+                      visible: _signUpController.inProgress == false,
+                      replacement: CenteredCircularProgressIndicator(),
+                      child: ElevatedButton(
+                        onPressed: _onTapUserSignUp,
+                        child: Text("Sign Up"),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Already have an account?",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    const SizedBox(width: 6),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, LoginScreen.name);
+                      },
+                      child: Text(
+                        "Sign In",
+                        style: TextStyle(
+                          color: AppColors.themeColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -145,10 +187,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _onTapUserSignUp() {
+  Future<void> _onTapUserSignUp() async {
     if (_formKey.currentState!.validate()) {
-      // TODO: Sign up logic
-      Navigator.pushReplacementNamed(context, LoginScreen.name);
+      final SignUpRequestModel model = SignUpRequestModel(
+        firstName: _firstNameTEController.text.trim(),
+        lastName: _lastNameTEController.text.trim(),
+        email: _emailTEController.text.trim(),
+        password: _passwordTEController.text,
+        phone: _mobileTEController.text.trim(),
+        city: _cityTEController.text.trim(),
+      );
+      final bool isSuccess = await _signUpController.signUp(model);
+      if (isSuccess) {
+        showSnackBar(title: "Success", content: _signUpController.message!);
+        Navigator.pushNamed(
+          context,
+          OtpVerificationScreen.name,
+          arguments: _emailTEController.text.trim(),
+        );
+      } else {
+        showSnackBar(
+          title: "Registration Failed",
+          content: _signUpController.errorMessage!,
+          isError: true,
+        );
+      }
     }
   }
 
@@ -163,12 +226,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 }
-
-// {
-// "first_name": "Meskatul",
-// "last_name": "Islam",
-// "email": "meskatcse@gmail.com",
-// "password": "123456",
-// "phone": "01754658781",
-// "city": "Chattogram"
-// }
