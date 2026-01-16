@@ -1,5 +1,6 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
+import 'package:crafty_bay/features/common/ui/controllers/category_list_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
 import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_card.dart';
@@ -33,13 +34,27 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 12),
               GetBuilder<HeroBannerCarouselController>(
                 builder: (sliderController) {
+                  if (sliderController.errorMessage != null) {
+                    return SizedBox(
+                      height: 198,
+                      child: Center(
+                        child: Text(
+                          sliderController.errorMessage!,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    );
+                  }
                   return Visibility(
                     visible: sliderController.inProgress == false,
                     replacement: SizedBox(
                       height: 198,
                       child: CenteredCircularProgressIndicator(),
                     ),
-                    child: HeroBannerCarouselSlider(slides: sliderController.slideList,),
+                    child: HeroBannerCarouselSlider(
+                      slides: sliderController.slideList,
+                    ),
                   );
                 },
               ),
@@ -122,11 +137,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _getCategoryList() {
     return SizedBox(
       height: 100,
-      child: ListView.builder(
-        itemCount: 10,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return ProductCategoryItem();
+      child: GetBuilder<CategoryListController>(
+        builder: (categoryController) {
+          return Visibility(
+            visible: categoryController.initialLoadingInProgress == false,
+            replacement: CenteredCircularProgressIndicator(),
+            child: ListView.builder(
+              itemCount: categoryController.categoryLength,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return ProductCategoryItem(
+                  category: categoryController.categoryList[index],
+                );
+              },
+            ),
+          );
         },
       ),
     );

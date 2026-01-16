@@ -12,7 +12,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(RouteNames.productListScreen);
+        Get.toNamed(RouteNames.productDetailsScreen);
       },
       child: Container(
         width: 156,

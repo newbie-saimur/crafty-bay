@@ -1,9 +1,14 @@
 class Urls {
-  static final _baseUrl = "https://ecom-rs8e.onrender.com/api";
+  static final String _baseUrl = "https://ecom-rs8e.onrender.com/api";
 
-  static final signUpUserUrl = "$_baseUrl/auth/signup";
-  static final verifyOtpUrl = "$_baseUrl/auth/verify-otp";
-  static final resendOtpUrl = "$_baseUrl/auth/resend-otp";
-  static final loginUrl = "$_baseUrl/auth/login";
-  static final homeBannerCarouselSliderUrl = "$_baseUrl/slides";
+  static final String signUpUserUrl = "$_baseUrl/auth/signup";
+  static final String verifyOtpUrl = "$_baseUrl/auth/verify-otp";
+  static final String resendOtpUrl = "$_baseUrl/auth/resend-otp";
+  static final String loginUrl = "$_baseUrl/auth/login";
+
+  static final String homeBannerCarouselSliderUrl = "$_baseUrl/slides";
+  static String productCategoryListUrl({
+    required int count,
+    required int currentPage,
+  }) => "$_baseUrl/categories?count=$count&page=$currentPage";
 }

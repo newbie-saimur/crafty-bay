@@ -1,4 +1,5 @@
 import 'package:crafty_bay/features/cart/ui/screens/cart_list_screen.dart';
+import 'package:crafty_bay/features/common/ui/controllers/category_list_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/hero_banner_carousel_controller.dart';
 import 'package:crafty_bay/features/home/ui/screens/home_screen.dart';
@@ -19,6 +20,7 @@ class _MainBottomNavBarState extends State<MainBottomNavBar> {
   void initState() {
     super.initState();
     Get.find<HeroBannerCarouselController>().getSlides();
+    Get.find<CategoryListController>().getCategoryList();
   }
 
   final _screens = [

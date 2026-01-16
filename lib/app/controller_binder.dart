@@ -5,6 +5,7 @@ import 'package:crafty_bay/features/auth/ui/controllers/sign_up_controller.dart'
 import 'package:crafty_bay/features/common/ui/controllers/auth_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/hero_banner_carousel_controller.dart';
+import 'package:crafty_bay/features/common/ui/controllers/category_list_controller.dart';
 import 'package:crafty_bay/routes/route_names.dart';
 import 'package:get/get.dart';
 
@@ -23,6 +24,7 @@ class ControllerBinder extends Bindings {
     Get.put(AuthController());
     Get.put(LoginController());
     Get.put(HeroBannerCarouselController());
+    Get.put(CategoryListController());
   }
 
   Future<void> _onUnauthorize() async {
