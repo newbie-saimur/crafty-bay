@@ -1,7 +1,7 @@
-import 'package:crafty_bay/app/app_routes.dart';
 import 'package:crafty_bay/app/app_theme.dart';
 import 'package:crafty_bay/app/controller_binder.dart';
-import 'package:crafty_bay/features/auth/ui/screens/splash_screen.dart';
+import 'package:crafty_bay/routes/route_names.dart';
+import 'package:crafty_bay/routes/route_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,8 +18,8 @@ class _CraftyBayState extends State<CraftyBay> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightThemeData,
-      initialRoute: SplashScreen.name,
-      onGenerateRoute: AppRoutes.routes,
+      initialRoute: RouteNames.splashScreen,
+      getPages: RoutePages.routes,
       initialBinding: ControllerBinder(),
     );
   }

@@ -1,12 +1,11 @@
-import 'package:crafty_bay/features/auth/ui/screens/register_screen.dart';
-import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_bar.dart';
+import 'package:crafty_bay/features/common/ui/controllers/auth_controller.dart';
+import 'package:crafty_bay/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
-  static final String name = '/';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -21,7 +20,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _navigateToHomeScreen() async {
     await Future.delayed(Duration(seconds: 2));
-    Navigator.pushReplacementNamed(context, RegisterScreen.name);
+    if (await Get.find<AuthController>().isUserLoggedIn()) {
+      Get.offAllNamed(RouteNames.mainBottomNavBarScreen);
+    } else {
+      Get.find<AuthController>().clearUserData();
+      Get.offAllNamed(RouteNames.loginScreen);
+    }
   }
 
   @override
@@ -38,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Spacer(),
                 CircularProgressIndicator(),
                 const SizedBox(height: 16),
-                Text("Version 1.0.0", style: TextStyle(color: Colors.grey),),
+                Text("Version 1.0.0", style: TextStyle(color: Colors.grey)),
               ],
             ),
           ),

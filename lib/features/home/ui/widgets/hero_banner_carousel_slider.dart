@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/app/app_colors.dart';
+import 'package:crafty_bay/features/home/data/models/hero_banner_slider_model.dart';
 import 'package:flutter/material.dart';
 
 class HeroBannerCarouselSlider extends StatefulWidget {
-  const HeroBannerCarouselSlider({super.key});
+  const HeroBannerCarouselSlider({super.key, required this.slides});
+
+  final List<HeroBannerSliderModel> slides;
 
   @override
   State<HeroBannerCarouselSlider> createState() =>
@@ -19,13 +22,13 @@ class _HeroBannerCarouselSliderState extends State<HeroBannerCarouselSlider> {
       children: [
         CarouselSlider(
           options: CarouselOptions(
-            height: 140.0,
+            height: 180.0,
             viewportFraction: 1,
             onPageChanged: (int currentIndex, _) {
               _currentSlider.value = currentIndex;
             },
           ),
-          items: [1, 2, 3, 4, 5].map((i) {
+          items: widget.slides.map((slide) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
@@ -34,9 +37,10 @@ class _HeroBannerCarouselSliderState extends State<HeroBannerCarouselSlider> {
                   decoration: BoxDecoration(
                     color: AppColors.themeColor,
                     borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text('text $i', style: TextStyle(fontSize: 16.0)),
+                    image: DecorationImage(
+                      image: NetworkImage(slide.photoUrl),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 );
               },
@@ -50,7 +54,7 @@ class _HeroBannerCarouselSliderState extends State<HeroBannerCarouselSlider> {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < widget.slides.length; i++)
                   Container(
                     width: 10,
                     height: 10,

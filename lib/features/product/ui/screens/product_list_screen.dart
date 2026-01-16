@@ -5,7 +5,6 @@ class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key, required this.category});
 
   final String category;
-  static final String name = "/product-list";
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();

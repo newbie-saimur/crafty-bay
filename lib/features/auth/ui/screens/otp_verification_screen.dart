@@ -1,10 +1,13 @@
 import 'package:crafty_bay/app/app_colors.dart';
+import 'package:crafty_bay/core/services/network/network_client.dart';
 import 'package:crafty_bay/features/auth/data/models/verify_otp_request_model.dart';
 import 'package:crafty_bay/features/auth/ui/controllers/otp_verification_controller.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
-import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_bar.dart';
+import 'package:crafty_bay/features/common/data/models/user_model.dart';
+import 'package:crafty_bay/features/common/ui/controllers/auth_controller.dart';
 import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
-import 'package:crafty_bay/features/common/ui/widgets/show_snackbar.dart';
+import 'package:crafty_bay/features/common/ui/widgets/show_snack_bar.dart';
+import 'package:crafty_bay/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -12,12 +15,10 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 class OtpVerificationScreen extends StatefulWidget {
   const OtpVerificationScreen({super.key, required this.email});
 
-  static final String name = "/pin-verification";
   final String email;
 
   @override
-  State<OtpVerificationScreen> createState() =>
-      _OtpVerificationScreenState();
+  State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
@@ -81,11 +82,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 16),
-                GetBuilder(
+                GetBuilder<OtpVerificationController>(
                   builder: (_) {
                     return Visibility(
-                      visible:
-                          _otpVerificationController.inProgress == false,
+                      visible: _otpVerificationController.inProgress == false,
                       replacement: CenteredCircularProgressIndicator(),
                       child: ElevatedButton(
                         onPressed: _onTapOtpVerification,
@@ -115,10 +115,23 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  "Resend Code",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineSmall,
+                GetBuilder<OtpVerificationController>(
+                  builder: (_) {
+                    return Visibility(
+                      visible:
+                          _otpVerificationController.resendOtpInProgress ==
+                          false,
+                      replacement: CenteredCircularProgressIndicator(),
+                      child: GestureDetector(
+                        onTap: _onTapResendOtp,
+                        child: Text(
+                          "Resend Code",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -134,13 +147,19 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         email: widget.email,
         otp: _pinTEController.text,
       );
-      bool isSuccess = await _otpVerificationController.verifyOtp(model);
-      if (isSuccess) {
+      NetworkResponse response = await _otpVerificationController.verifyOtp(
+        model,
+      );
+      if (response.isSuccess) {
         showSnackBar(
           title: "Success",
           content: _otpVerificationController.message!,
         );
-        Navigator.pushNamed(context, MainBottomNavBar.name);
+        Get.find<AuthController>().saveUserData(
+          response.data!['data']['token'],
+          UserModel.fromJson(response.data!['data']['user']),
+        );
+        Get.offAllNamed(RouteNames.mainBottomNavBarScreen);
       } else {
         showSnackBar(
           title: "Verification Failed",
@@ -148,6 +167,22 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           isError: true,
         );
       }
+    }
+  }
+
+  Future<void> _onTapResendOtp() async {
+    bool isSuccess = await _otpVerificationController.resendOtp(widget.email);
+    if (isSuccess) {
+      showSnackBar(
+        title: "Success",
+        content: _otpVerificationController.message!,
+      );
+    } else {
+      showSnackBar(
+        title: "Failed",
+        content: _otpVerificationController.errorMessage!,
+        isError: true,
+      );
     }
   }
 

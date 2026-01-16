@@ -27,11 +27,12 @@ class NetworkClient {
           data: responseData,
         );
       } else if (response.statusCode == 401) {
+        final responseData = jsonDecode(response.body);
         onUnauthorize();
         return NetworkResponse(
           isSuccess: false,
           statusCode: response.statusCode,
-          errorMessage: "Unauthorize",
+          data: responseData
         );
       } else {
         final responseData = jsonDecode(response.body);
@@ -71,11 +72,12 @@ class NetworkClient {
           data: responseData,
         );
       } else if (response.statusCode == 401) {
+        final responseData = jsonDecode(response.body);
         onUnauthorize();
         return NetworkResponse(
-          isSuccess: false,
-          statusCode: response.statusCode,
-          errorMessage: "Unauthorize",
+            isSuccess: false,
+            statusCode: response.statusCode,
+            data: responseData
         );
       } else {
         final responseData = jsonDecode(response.body);
@@ -115,11 +117,12 @@ class NetworkClient {
           data: responseData,
         );
       } else if (response.statusCode == 401) {
+        final responseData = jsonDecode(response.body);
         onUnauthorize();
         return NetworkResponse(
-          isSuccess: false,
-          statusCode: response.statusCode,
-          errorMessage: "Unauthorize",
+            isSuccess: false,
+            statusCode: response.statusCode,
+            data: responseData
         );
       } else {
         final responseData = jsonDecode(response.body);
@@ -159,11 +162,12 @@ class NetworkClient {
           data: responseData,
         );
       } else if (response.statusCode == 401) {
+        final responseData = jsonDecode(response.body);
         onUnauthorize();
         return NetworkResponse(
-          isSuccess: false,
-          statusCode: response.statusCode,
-          errorMessage: "Unauthorize",
+            isSuccess: false,
+            statusCode: response.statusCode,
+            data: responseData
         );
       } else {
         final responseData = jsonDecode(response.body);
@@ -203,11 +207,12 @@ class NetworkClient {
           data: responseData,
         );
       } else if (response.statusCode == 401) {
+        final responseData = jsonDecode(response.body);
         onUnauthorize();
         return NetworkResponse(
-          isSuccess: false,
-          statusCode: response.statusCode,
-          errorMessage: "Unauthorize",
+            isSuccess: false,
+            statusCode: response.statusCode,
+            data: responseData
         );
       } else {
         final responseData = jsonDecode(response.body);

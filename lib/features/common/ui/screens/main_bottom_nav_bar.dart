@@ -1,5 +1,6 @@
 import 'package:crafty_bay/features/cart/ui/screens/cart_list_screen.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
+import 'package:crafty_bay/features/home/ui/controllers/hero_banner_carousel_controller.dart';
 import 'package:crafty_bay/features/home/ui/screens/home_screen.dart';
 import 'package:crafty_bay/features/product/ui/screens/product_category_screen.dart';
 import 'package:crafty_bay/features/wish/ui/screens/wish_list_screen.dart';
@@ -9,13 +10,17 @@ import 'package:get/get.dart';
 class MainBottomNavBar extends StatefulWidget {
   const MainBottomNavBar({super.key});
 
-  static final String name = "/main-bottom-nav";
-
   @override
   State<MainBottomNavBar> createState() => _MainBottomNavBarState();
 }
 
 class _MainBottomNavBarState extends State<MainBottomNavBar> {
+  @override
+  void initState() {
+    super.initState();
+    Get.find<HeroBannerCarouselController>().getSlides();
+  }
+
   final _screens = [
     HomeScreen(),
     ProductCategoryScreen(),

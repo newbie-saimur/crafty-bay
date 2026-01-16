@@ -1,7 +1,9 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
+import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_card.dart';
+import 'package:crafty_bay/features/home/ui/controllers/hero_banner_carousel_controller.dart';
 import 'package:crafty_bay/features/home/ui/widgets/hero_banner_carousel_slider.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart';
 import 'package:crafty_bay/features/home/ui/widgets/product_search_bar.dart';
@@ -29,7 +31,18 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 12),
               ProductSearchBar(),
               const SizedBox(height: 12),
-              HeroBannerCarouselSlider(),
+              GetBuilder<HeroBannerCarouselController>(
+                builder: (sliderController) {
+                  return Visibility(
+                    visible: sliderController.inProgress == false,
+                    replacement: SizedBox(
+                      height: 198,
+                      child: CenteredCircularProgressIndicator(),
+                    ),
+                    child: HeroBannerCarouselSlider(slides: sliderController.slideList,),
+                  );
+                },
+              ),
               const SizedBox(height: 12),
               _buildSectionHeader(
                 title: "All Categories",

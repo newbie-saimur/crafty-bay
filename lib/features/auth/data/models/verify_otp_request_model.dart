@@ -5,6 +5,6 @@ class VerifyOtpRequestModel {
   VerifyOtpRequestModel({required this.email, required this.otp});
 
   Map<String, dynamic> toJson() {
-    return {"email": "user1@email.com", "otp": "1234"};
+    return {"email": email, "otp": otp};
   }
 }

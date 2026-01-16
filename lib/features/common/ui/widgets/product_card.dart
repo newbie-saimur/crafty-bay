@@ -1,8 +1,9 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
 import 'package:crafty_bay/app/constants.dart';
-import 'package:crafty_bay/features/product/ui/screens/product_details_screen.dart';
+import 'package:crafty_bay/routes/route_names.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key});
@@ -11,7 +12,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, ProductDetailsScreen.name);
+        Get.toNamed(RouteNames.productListScreen);
       },
       child: Container(
         width: 156,

@@ -1,12 +1,18 @@
 import 'package:crafty_bay/app/app_colors.dart';
-import 'package:crafty_bay/features/auth/ui/screens/register_screen.dart';
+import 'package:crafty_bay/core/services/network/network_client.dart';
+import 'package:crafty_bay/features/auth/data/models/login_request_model.dart';
+import 'package:crafty_bay/features/auth/ui/controllers/login_controller.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
+import 'package:crafty_bay/features/common/data/models/user_model.dart';
+import 'package:crafty_bay/features/common/ui/controllers/auth_controller.dart';
+import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/features/common/ui/widgets/show_snack_bar.dart';
+import 'package:crafty_bay/routes/route_names.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
-  static final String name = '/login';
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -16,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final LoginController _loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextFormField(
                     controller: _emailTEController,
                     decoration: InputDecoration(hintText: "Email Address"),
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
                     validator: (email) {
                       email = email?.trim();
                       if (email == null || email.isEmpty) {
@@ -66,7 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _passwordTEController,
-                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(hintText: "Password"),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
@@ -76,9 +84,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: _navigateToPinValidationScreen,
-                  child: Text("Login"),
+                GetBuilder<LoginController>(
+                  builder: (_) {
+                    return Visibility(
+                      visible: _loginController.inProgress == false,
+                      replacement: CenteredCircularProgressIndicator(),
+                      child: ElevatedButton(
+                        onPressed: _moveToHomePage,
+                        child: Text("Login"),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
                 Row(
@@ -91,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(width: 6),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, RegisterScreen.name);
+                        Get.toNamed(RouteNames.registerScreen);
                       },
                       child: Text(
                         "Sign Up",
@@ -111,10 +127,27 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _navigateToPinValidationScreen() {
+  Future<void> _moveToHomePage() async {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacementNamed(context, RegisterScreen.name);
-      // TODO: Navigate to Pin Verification Screen
+      final LoginRequestModel model = LoginRequestModel(
+        email: _emailTEController.text.trim(),
+        password: _passwordTEController.text,
+      );
+      NetworkResponse response = await _loginController.login(model);
+      if (response.isSuccess) {
+        showSnackBar(title: "Success", content: _loginController.message!);
+        Get.find<AuthController>().saveUserData(
+          response.data!['data']['token'],
+          UserModel.fromJson(response.data!['data']['user']),
+        );
+        Get.offAllNamed(RouteNames.mainBottomNavBarScreen);
+      } else {
+        showSnackBar(
+          title: "Failed",
+          content: _loginController.errorMessage!,
+          isError: true,
+        );
+      }
     }
   }
 

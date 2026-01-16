@@ -1,6 +1,7 @@
 import 'package:crafty_bay/app/app_colors.dart';
-import 'package:crafty_bay/features/product/ui/screens/product_list_screen.dart';
+import 'package:crafty_bay/routes/route_names.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductCategoryItem extends StatelessWidget {
   const ProductCategoryItem({super.key});
@@ -9,7 +10,7 @@ class ProductCategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, ProductListScreen.name, arguments: "Computer");
+        Get.toNamed(RouteNames.productListScreen, arguments: "Computer");
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

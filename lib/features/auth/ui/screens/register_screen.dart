@@ -1,18 +1,15 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/features/auth/data/models/sign_up_request_model.dart';
 import 'package:crafty_bay/features/auth/ui/controllers/sign_up_controller.dart';
-import 'package:crafty_bay/features/auth/ui/screens/otp_verification_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
 import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
-import 'package:crafty_bay/features/common/ui/widgets/show_snackbar.dart';
+import 'package:crafty_bay/features/common/ui/widgets/show_snack_bar.dart';
+import 'package:crafty_bay/routes/route_names.dart';
 import 'package:flutter/material.dart';
-import 'package:crafty_bay/features/auth/ui/screens/login_screen.dart';
 import 'package:get/get.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
-
-  static final String name = '/register';
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -110,6 +107,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return "Password must be at least 8 character long.";
                           } else if (!RegExp(r'[0-9]').hasMatch(value)) {
                             return "Password must contain at least one number.";
+                          } else if (!RegExp(r'[a-z]').hasMatch(value)) {
+                            return "Password must contain at least one character.";
                           }
                           return null;
                         },
@@ -122,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         decoration: InputDecoration(hintText: "Mobile"),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return "Please enter your password.";
+                            return "Please enter your mobile number.";
                           }
                           return null;
                         },
@@ -167,7 +166,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(width: 6),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, LoginScreen.name);
+                        Get.offAllNamed(RouteNames.loginScreen);
                       },
                       child: Text(
                         "Sign In",
@@ -200,11 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final bool isSuccess = await _signUpController.signUp(model);
       if (isSuccess) {
         showSnackBar(title: "Success", content: _signUpController.message!);
-        Navigator.pushNamed(
-          context,
-          OtpVerificationScreen.name,
-          arguments: _emailTEController.text.trim(),
-        );
+        Get.toNamed(RouteNames.otpVerificationScreen, arguments: _emailTEController.text.trim());
       } else {
         showSnackBar(
           title: "Registration Failed",

@@ -1,7 +1,11 @@
 import 'package:crafty_bay/core/services/network/network_client.dart';
+import 'package:crafty_bay/features/auth/ui/controllers/login_controller.dart';
 import 'package:crafty_bay/features/auth/ui/controllers/otp_verification_controller.dart';
 import 'package:crafty_bay/features/auth/ui/controllers/sign_up_controller.dart';
+import 'package:crafty_bay/features/common/ui/controllers/auth_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
+import 'package:crafty_bay/features/home/ui/controllers/hero_banner_carousel_controller.dart';
+import 'package:crafty_bay/routes/route_names.dart';
 import 'package:get/get.dart';
 
 class ControllerBinder extends Bindings {
@@ -16,9 +20,15 @@ class ControllerBinder extends Bindings {
     );
     Get.put(SignUpController());
     Get.put(OtpVerificationController());
+    Get.put(AuthController());
+    Get.put(LoginController());
+    Get.put(HeroBannerCarouselController());
   }
 
-  void _onUnauthorize() {}
+  Future<void> _onUnauthorize() async {
+    await Get.find<AuthController>().clearUserData();
+    Get.toNamed(RouteNames.loginScreen);
+  }
 
   final Map<String, String> _commonHeaders = {
     "Content-Type": "application/json",
