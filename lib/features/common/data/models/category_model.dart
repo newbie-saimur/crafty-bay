@@ -19,4 +19,13 @@ class CategoryModel {
       iconUrl: jsonData['icon'] ?? '',
     );
   }
+
+  factory CategoryModel.fromIdAndTitle({required String id, required String title}) {
+    return CategoryModel(
+      id: id,
+      title: title,
+      description: '',
+      iconUrl: '',
+    );
+  }
 }

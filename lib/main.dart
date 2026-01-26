@@ -1,6 +1,7 @@
-import 'dart:ui';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:crafty_bay/app/app.dart';
 import 'firebase_options.dart';
@@ -22,5 +23,11 @@ Future<void> main() async {
     return true;
   };
 
+  // runApp(
+  //   DevicePreview(
+  //     enabled: !kReleaseMode,
+  //     builder: (context) => CraftyBay(), // Wrap your app
+  //   ),
+  // );
   runApp(CraftyBay());
 }

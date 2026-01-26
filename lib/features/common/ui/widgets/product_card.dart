@@ -1,12 +1,15 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
 import 'package:crafty_bay/app/constants.dart';
+import 'package:crafty_bay/features/common/data/models/product_model.dart';
 import 'package:crafty_bay/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  const ProductCard({super.key, required this.model});
+
+  final ProductModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +18,7 @@ class ProductCard extends StatelessWidget {
         Get.toNamed(RouteNames.productDetailsScreen);
       },
       child: Container(
-        width: 156,
-        height: 220,
+        width: 160,
         margin: EdgeInsets.only(bottom: 12, right: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -30,9 +32,9 @@ class ProductCard extends StatelessWidget {
           ],
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 color: AppColors.themeColor.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.only(
@@ -40,19 +42,32 @@ class ProductCard extends StatelessWidget {
                   topRight: Radius.circular(16),
                 ),
               ),
-              child: Image.asset(AssetPaths.dummyNikeShoe),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+                child: model.photoUrls.isEmpty
+                    ? Image.asset(AssetPaths.dummyNikeShoe, fit: BoxFit.cover)
+                    : Image.network(
+                        model.photoUrls.first,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            AssetPaths.dummyNikeShoe,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      ),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                left: 12,
-                right: 12,
-                top: 12,
-                bottom: 12,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "New Year Special Shoe 30",
+                    model.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -64,13 +79,13 @@ class ProductCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "${Constants.bdtCurrencySign}100",
+                        "${Constants.bdtCurrencySign}${model.currentPrice}",
                         style: TextStyle(
                           color: AppColors.themeColor,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 8),
                       Wrap(
                         children: [
                           Icon(
@@ -87,7 +102,7 @@ class ProductCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 10),
                       Container(
                         padding: EdgeInsets.all(3),
                         decoration: BoxDecoration(

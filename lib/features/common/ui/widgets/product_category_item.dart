@@ -28,7 +28,6 @@ class _ProductCategoryItemState extends State<ProductCategoryItem> {
         children: [
           Container(
             padding: EdgeInsets.all(16),
-            margin: EdgeInsets.only(left: 8, right: 8),
             decoration: BoxDecoration(
               color: AppColors.themeColor.withValues(alpha: 0.07),
               borderRadius: BorderRadius.circular(12),

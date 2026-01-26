@@ -22,7 +22,7 @@ class _HeroBannerCarouselSliderState extends State<HeroBannerCarouselSlider> {
       children: [
         CarouselSlider(
           options: CarouselOptions(
-            height: 180.0,
+            height: MediaQuery.sizeOf(context).width * 0.5,
             viewportFraction: 1,
             onPageChanged: (int currentIndex, _) {
               _currentSlider.value = currentIndex;

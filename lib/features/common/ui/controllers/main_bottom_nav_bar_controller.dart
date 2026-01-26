@@ -5,7 +5,7 @@ class MainBottomNavBarController extends GetxController {
   int get selectedIndex => _currentIndex;
 
   void updateIndex(int index) {
-    if(index == _currentIndex) {
+    if (index == _currentIndex) {
       return;
     }
     _currentIndex = index;

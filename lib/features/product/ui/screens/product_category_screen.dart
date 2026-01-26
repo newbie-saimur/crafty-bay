@@ -61,7 +61,9 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
                       child: GridView.builder(
                         controller: _scrollController,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
+                          crossAxisCount: MediaQuery.sizeOf(context).width < 600
+                              ? 4
+                              : 6,
                           mainAxisSpacing: 20,
                           crossAxisSpacing: 4,
                         ),

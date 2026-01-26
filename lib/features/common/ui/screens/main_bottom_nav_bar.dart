@@ -4,7 +4,7 @@ import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_co
 import 'package:crafty_bay/features/home/ui/controllers/hero_banner_carousel_controller.dart';
 import 'package:crafty_bay/features/home/ui/screens/home_screen.dart';
 import 'package:crafty_bay/features/product/ui/screens/product_category_screen.dart';
-import 'package:crafty_bay/features/wish/ui/screens/wish_list_screen.dart';
+import 'package:crafty_bay/features/wish-list/ui/screens/wish_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

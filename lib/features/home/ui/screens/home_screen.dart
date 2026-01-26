@@ -1,10 +1,13 @@
-import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
+import 'package:crafty_bay/app/constants.dart';
+import 'package:crafty_bay/features/common/data/models/category_model.dart';
 import 'package:crafty_bay/features/common/ui/controllers/category_list_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
+import 'package:crafty_bay/features/common/ui/controllers/product_list_controller.dart';
 import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
-import 'package:crafty_bay/features/common/ui/widgets/product_card.dart';
 import 'package:crafty_bay/features/home/ui/controllers/hero_banner_carousel_controller.dart';
+import 'package:crafty_bay/features/home/ui/widgets/build_section_header.dart';
+import 'package:crafty_bay/features/home/ui/widgets/get_products_by_category.dart';
 import 'package:crafty_bay/features/home/ui/widgets/hero_banner_carousel_slider.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart';
 import 'package:crafty_bay/features/home/ui/widgets/product_search_bar.dart';
@@ -20,14 +23,38 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ProductListController _popularProductListController =
+      ProductListController();
+  final ProductListController _specialProductListController =
+      ProductListController();
+  final ProductListController _newArrivalProductListController =
+      ProductListController();
+
+  @override
+  void initState() {
+    super.initState();
+    _popularProductListController.getProductListByCategory(
+      Constants.popularProductCategoryId,
+    );
+    _specialProductListController.getProductListByCategory(
+      Constants.specialProductCategoryId,
+    );
+    _newArrivalProductListController.getProductListByCategory(
+      Constants.newArrivalProductCategoryId,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    double screenSize = MediaQuery.sizeOf(context).width;
+    bool isPhone = screenSize < 600;
     return Scaffold(
       appBar: _buildAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 12),
               ProductSearchBar(),
@@ -36,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (sliderController) {
                   if (sliderController.errorMessage != null) {
                     return SizedBox(
-                      height: 198,
+                      height: screenSize * 0.5 + 12,
                       child: Center(
                         child: Text(
                           sliderController.errorMessage!,
@@ -49,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Visibility(
                     visible: sliderController.inProgress == false,
                     replacement: SizedBox(
-                      height: 198,
+                      height: screenSize * 0.5 + 12,
                       child: CenteredCircularProgressIndicator(),
                     ),
                     child: HeroBannerCarouselSlider(
@@ -58,27 +85,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
-              const SizedBox(height: 12),
-              _buildSectionHeader(
+              SizedBox(height: isPhone ? 6 : 12),
+              BuildSectionHeader(
                 title: "All Categories",
                 onTapSeeAll: () {
                   Get.find<MainBottomNavBarController>().moveToCategoryScreen();
                 },
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 4),
               _getCategoryList(),
-              const SizedBox(height: 8),
-              _buildSectionHeader(title: "Popular", onTapSeeAll: () {}),
-              const SizedBox(height: 4),
-              _getPopularProduct(),
-              const SizedBox(height: 4),
-              _buildSectionHeader(title: "Special", onTapSeeAll: () {}),
-              const SizedBox(height: 4),
-              _getSpecialProduct(),
-              const SizedBox(height: 4),
-              _buildSectionHeader(title: "New", onTapSeeAll: () {}),
-              const SizedBox(height: 4),
-              _getNewProduct(),
+              SizedBox(height: isPhone ? 12 : 16),
+              GetProductsByCategory(
+                model: CategoryModel.fromIdAndTitle(
+                  id: Constants.popularProductCategoryId,
+                  title: "Popular",
+                ),
+                controller: _popularProductListController,
+              ),
+              SizedBox(height: isPhone ? 4 : 8),
+              GetProductsByCategory(
+                model: CategoryModel.fromIdAndTitle(
+                  id: Constants.specialProductCategoryId,
+                  title: "Special",
+                ),
+                controller: _specialProductListController,
+              ),
+              SizedBox(height: isPhone ? 4 : 8),
+              GetProductsByCategory(
+                model: CategoryModel.fromIdAndTitle(
+                  id: Constants.newArrivalProductCategoryId,
+                  title: "New Arrival",
+                ),
+                controller: _newArrivalProductListController,
+              ),
               const SizedBox(height: 4),
             ],
           ),
@@ -118,22 +157,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Row _buildSectionHeader({
-    required String title,
-    required VoidCallback onTapSeeAll,
-  }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(title, style: Theme.of(context).textTheme.titleLarge),
-        TextButton(
-          onPressed: onTapSeeAll,
-          child: Text("See All", style: TextStyle(color: AppColors.themeColor)),
-        ),
-      ],
-    );
-  }
-
   Widget _getCategoryList() {
     return SizedBox(
       height: 100,
@@ -142,53 +165,22 @@ class _HomeScreenState extends State<HomeScreen> {
           return Visibility(
             visible: categoryController.initialLoadingInProgress == false,
             replacement: CenteredCircularProgressIndicator(),
-            child: ListView.builder(
+            child: ListView.separated(
               itemCount: categoryController.categoryLength,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return ProductCategoryItem(
-                  category: categoryController.categoryList[index],
+                return FittedBox(
+                  child: ProductCategoryItem(
+                    category: categoryController.categoryList[index],
+                  ),
                 );
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(width: 12);
               },
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _getSpecialProduct() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        spacing: 10,
-        children: [
-          ...[1, 2, 3, 4].map((product) => ProductCard()),
-        ],
-      ),
-    );
-  }
-
-  Widget _getPopularProduct() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        spacing: 10,
-        children: [
-          ...[1, 2, 3, 4].map((product) => ProductCard()),
-        ],
-      ),
-    );
-  }
-
-  Widget _getNewProduct() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        spacing: 10,
-        children: [
-          ...[1, 2, 3, 4].map((product) => ProductCard()),
-        ],
       ),
     );
   }

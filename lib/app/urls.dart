@@ -11,4 +11,10 @@ class Urls {
     required int count,
     required int currentPage,
   }) => "$_baseUrl/categories?count=$count&page=$currentPage";
+
+  static String productListUrl({
+    required int count,
+    required int currentPage,
+    required String categoryId,
+  }) => "$_baseUrl/products?count=$count&page=$currentPage&category=$categoryId";
 }
