@@ -16,6 +16,14 @@ class MainBottomNavBarController extends GetxController {
     updateIndex(1);
   }
 
+  void moveToCartScreen() {
+    updateIndex(2);
+  }
+
+  void moveToWishListScreen() {
+    updateIndex(3);
+  }
+
   void backToHome() {
     updateIndex(0);
   }

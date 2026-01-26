@@ -17,6 +17,6 @@ class RoutePages {
     GetPage(name: RouteNames.otpVerificationScreen, page: () => OtpVerificationScreen(email: Get.arguments as String)),
     GetPage(name: RouteNames.mainBottomNavBarScreen, page: () => MainBottomNavBar()),
     GetPage(name: RouteNames.productListScreen, page: () => ProductListByCategory(category: Get.arguments! as CategoryModel)),
-    GetPage(name: RouteNames.productDetailsScreen, page: () => ProductDetailsScreen()),
+    GetPage(name: RouteNames.productDetailsScreen, page: () => ProductDetailsScreen(productId: Get.arguments! as String)),
   ];
 }

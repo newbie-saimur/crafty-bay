@@ -13,6 +13,19 @@ class WishListScreen extends StatefulWidget {
 }
 
 class _WishListScreenState extends State<WishListScreen> {
+  late final ProductListController _productListController;
+
+  @override
+  void initState() {
+    super.initState();
+    _productListController = Get.put(
+      ProductListController(),
+      tag: "wish-list",
+      permanent: true,
+    );
+    _productListController.getProductListByCategory("67c35af85e8a445235de197b");
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -33,6 +46,7 @@ class _WishListScreenState extends State<WishListScreen> {
           ),
         ),
         body: GetBuilder<ProductListController>(
+          tag: "wish-list",
           builder: (productController) {
             return Visibility(
               visible: productController.initialLoadingInProgress == false,

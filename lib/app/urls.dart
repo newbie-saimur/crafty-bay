@@ -17,4 +17,7 @@ class Urls {
     required int currentPage,
     required String categoryId,
   }) => "$_baseUrl/products?count=$count&page=$currentPage&category=$categoryId";
+
+  static final String wishListUrl = "$_baseUrl/wishlist";
+  static String productDetailsUrl({required String productId}) => "$_baseUrl/products/id/$productId";
 }

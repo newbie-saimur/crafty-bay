@@ -13,6 +13,7 @@ class ControllerBinder extends Bindings {
   @override
   void dependencies() {
     Get.put(MainBottomNavBarController());
+    Get.put(AuthController());
     Get.put(
       NetworkClient(
         onUnauthorize: _onUnauthorize,
@@ -21,7 +22,6 @@ class ControllerBinder extends Bindings {
     );
     Get.put(SignUpController());
     Get.put(OtpVerificationController());
-    Get.put(AuthController());
     Get.put(LoginController());
     Get.put(HeroBannerCarouselController());
     Get.put(CategoryListController());
@@ -32,7 +32,11 @@ class ControllerBinder extends Bindings {
     Get.toNamed(RouteNames.loginScreen);
   }
 
-  final Map<String, String> _commonHeaders = {
-    "Content-Type": "application/json",
-  };
+  Map<String, String> _commonHeaders() {
+    final authController = Get.find<AuthController>();
+    return {
+      "Content-Type": "application/json",
+      "token": authController.userToken ?? "",
+    };
+  }
 }

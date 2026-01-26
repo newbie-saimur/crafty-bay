@@ -5,6 +5,7 @@ import 'package:crafty_bay/features/auth/ui/controllers/login_controller.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
 import 'package:crafty_bay/features/common/data/models/user_model.dart';
 import 'package:crafty_bay/features/common/ui/controllers/auth_controller.dart';
+import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_bar_controller.dart';
 import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/features/common/ui/widgets/show_snack_bar.dart';
 import 'package:crafty_bay/routes/route_names.dart';
@@ -141,6 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
           UserModel.fromJson(response.data!['data']['user']),
         );
         Get.offAllNamed(RouteNames.mainBottomNavBarScreen);
+        Get.find<MainBottomNavBarController>().moveToCartScreen();
       } else {
         showSnackBar(
           title: "Failed",

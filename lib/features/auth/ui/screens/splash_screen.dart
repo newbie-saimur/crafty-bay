@@ -1,4 +1,3 @@
-import 'package:crafty_bay/features/common/ui/controllers/auth_controller.dart';
 import 'package:crafty_bay/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
@@ -20,12 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _navigateToHomeScreen() async {
     await Future.delayed(Duration(seconds: 2));
-    if (await Get.find<AuthController>().isUserLoggedIn()) {
-      Get.offAllNamed(RouteNames.mainBottomNavBarScreen);
-    } else {
-      Get.find<AuthController>().clearUserData();
-      Get.offAllNamed(RouteNames.loginScreen);
-    }
+    Get.offAllNamed(RouteNames.mainBottomNavBarScreen);
   }
 
   @override

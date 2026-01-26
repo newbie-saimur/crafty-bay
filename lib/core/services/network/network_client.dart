@@ -9,15 +9,15 @@ class NetworkClient {
   final _defaultErrorMessage = "Something went wrong.";
 
   final VoidCallback onUnauthorize;
-  final Map<String, String> commonHeaders;
+  final Map<String, String> Function() commonHeaders;
 
   NetworkClient({required this.onUnauthorize, required this.commonHeaders});
 
   Future<NetworkResponse> getRequest(String url) async {
     try {
       Uri uri = Uri.parse(url);
-      requestLog(url: url, headers: commonHeaders);
-      Response response = await get(uri, headers: commonHeaders);
+      requestLog(url: url, headers: commonHeaders());
+      Response response = await get(uri, headers: commonHeaders());
       responseLog(response);
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = jsonDecode(response.body);
@@ -57,10 +57,10 @@ class NetworkClient {
   }) async {
     try {
       Uri uri = Uri.parse(url);
-      requestLog(url: url, headers: commonHeaders, body: body);
+      requestLog(url: url, headers: commonHeaders(), body: body);
       Response response = await post(
         uri,
-        headers: commonHeaders,
+        headers: commonHeaders(),
         body: jsonEncode(body),
       );
       responseLog(response);
@@ -102,10 +102,10 @@ class NetworkClient {
   }) async {
     try {
       Uri uri = Uri.parse(url);
-      requestLog(url: url, headers: commonHeaders, body: body);
+      requestLog(url: url, headers: commonHeaders(), body: body);
       Response response = await put(
         uri,
-        headers: commonHeaders,
+        headers: commonHeaders(),
         body: jsonEncode(body),
       );
       responseLog(response);
@@ -147,10 +147,10 @@ class NetworkClient {
   }) async {
     try {
       Uri uri = Uri.parse(url);
-      requestLog(url: url, headers: commonHeaders, body: body);
+      requestLog(url: url, headers: commonHeaders(), body: body);
       Response response = await patch(
         uri,
-        headers: commonHeaders,
+        headers: commonHeaders(),
         body: jsonEncode(body),
       );
       responseLog(response);
@@ -192,10 +192,10 @@ class NetworkClient {
   }) async {
     try {
       Uri uri = Uri.parse(url);
-      requestLog(url: url, headers: commonHeaders, body: body);
+      requestLog(url: url, headers: commonHeaders(), body: body);
       Response response = await delete(
         uri,
-        headers: commonHeaders,
+        headers: commonHeaders(),
         body: jsonEncode(body),
       );
       responseLog(response);
