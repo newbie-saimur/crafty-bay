@@ -27,19 +27,18 @@ Experience the app without setting up the development environment:
 - [Download APK](#-download-apk)
 - [Features](#-features)
 - [Screenshots](#-screenshots)
-- [Architecture](#️-architecture)
+- [Architecture](#-architecture)
 - [Getting Started](#-getting-started)
 - [Dependencies](#-dependencies)
 - [Design Patterns](#-design-patterns)
 - [Configuration](#-configuration)
 - [Supported Platforms](#-supported-platforms)
-- [Testing](#-testing)
-- [Build](#️-build)
+- [Build](#-build)
 - [API Integration](#-api-integration)
 - [Security Features](#-security-features)
 - [Error Handling](#-error-handling)
 - [Troubleshooting](#-troubleshooting)
-- [Roadmap](#️-roadmap)
+- [Roadmap](#-roadmap)
 - [License](#-license)
 - [Contributing](#-contributing)
 - [Author](#-author)
@@ -277,18 +276,6 @@ Place images in `assets/images/` and update `pubspec.yaml` accordingly.
 
 - ✅ Android
 - ✅ iOS
-
-## 🧪 Testing
-
-- ✅ Android
-- ✅ iOS
-
-## 🧪 Testing
-
-Run tests with:
-```bash
-flutter test
-```
 
 ## 🏗️ Build
 
